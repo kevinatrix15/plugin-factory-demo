@@ -80,3 +80,7 @@ Number of registered types: 2
 Instantiating an 'A' from the Factory:Hello from A! I got the value: 42
 instantiating a 'B' from the Factory:Hello from B! I got the value: 42
 ```
+
+### Solving the issue with linker flags
+
+Replace `-DUSE_A_TYPE` with `-DUSE_LINK_OPTS`.  This adds the GNU linker flag `--no-as-needed`, which forces the linker to use (and load) each dynamic library in the executable, regardless of whether it satisfies any undefined symbols.
