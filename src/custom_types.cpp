@@ -7,13 +7,24 @@
 
 A::A(int val)
 {
-  var = val;
-  std::cout << "Hello from A! I got the value: " << val << std::endl;
+  foo = val;
+  std::cout << "Hello from A! I got the value: " << foo << std::endl;
 };
 
 int A::getVar()
 {
-  return var;
+  return foo;
+}
+
+B::B(int val)
+{
+  bar = val;
+  std::cout << "Hello from B! I got the value: " << bar << std::endl;
+};
+
+int B::getVar()
+{
+  return bar;
 }
 
 // A struct which registers a type into the registry when instantiated
@@ -40,5 +51,6 @@ struct CustomTypeRegistrar
   }
 };
 
-// Static variable whose constructor registers a type with lib_B
+// Static variables whose constructor registers a type with the registry library
 static CustomTypeRegistrar<A> register_A("A");
+static CustomTypeRegistrar<B> register_B("B");

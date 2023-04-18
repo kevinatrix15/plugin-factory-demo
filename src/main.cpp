@@ -12,9 +12,13 @@ int main()
   MyTypeRegistry::RegisterAll(factory, the_custom_argument);
 
 #ifdef USE_A_TYPE
-  // If we don't directly "use" something from lib_A, it will never be loaded
+  std::cout << "~~ Direct custom-type usage was enabled - construcing an 'A' instance ~~" << std::endl;
+
+  // If we don't directly "use" something from custom_types, it will never be loaded
   A foo(1);
   std::cout << "A.var: " << foo.getVar() << std::endl;
+#else
+  std::cout << "~~ Direct custom-types usage has been disabled - This will fail! ~~" << std::endl;
 #endif
 
   // Check the contents of the types registry
@@ -25,6 +29,12 @@ int main()
   for (auto& str : registered_types)
     std::cout << "  Type: '" << str << "'" << std::endl;
 
-  // Try instantiating an "A" using the Factory
+  std::cout << std::endl;
+
+  // Try instantiating an "A" and a "B" using the Factory
+  std::cout << "Instantiating an 'A' from the Factory:";
   std::shared_ptr<BaseClass> a_base = factory.instantiateType("A");
+
+  std::cout << "instantiating a 'B' from the Factory:";
+  std::shared_ptr<BaseClass> b_base = factory.instantiateType("B");
 }
