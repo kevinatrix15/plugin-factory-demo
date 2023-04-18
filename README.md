@@ -27,3 +27,56 @@ Then, in the executable, you call `MyTypeRegistry::RegisterAll()`, passing in th
 ## Cool, so what's the problem?
 
 The problem is that if your executable doesn't directly _use_ any of the symbols defined in the custom types library, library _will not be loaded_, and all of the types defined in that library _will not be registered_.
+
+To see for yourself, see the build instructions below.
+
+## Building
+
+### "Non-functional" version showing the "unexpected" behavior
+
+Build the executable with the default options, and see the runtime error of the derived types not being registered:
+
+```bash
+mkdir -p build
+cd build
+cmake .. -DUSE_A_TYPE=OFF
+make
+./main
+```
+
+Expected output:
+
+```
+~~ Direct custom-types usage has been disabled - This will fail! ~~
+Number of registered types: 0
+
+terminate called after throwing an instance of 'std::runtime_error'
+  what():  Requested ID not in Factory type_registry_!
+Aborted (core dumped)
+```
+
+### Working version showing "expected" behavior
+
+Build with `-DUSE_A_TYPE` and see that the types _do_ get registered:
+
+```bash
+mkdir -p build
+cd build
+cmake .. -DUSE_A_TYPE=ON
+make
+./main
+```
+
+Expected output:
+
+```
+~~ Direct custom-type usage was enabled - construcing an 'A' instance ~~
+Hello from A! I got the value: 1
+A.var: 1
+Number of registered types: 2
+  Type: 'B'
+  Type: 'A'
+
+Instantiating an 'A' from the Factory:Hello from A! I got the value: 42
+instantiating a 'B' from the Factory:Hello from B! I got the value: 42
+```
