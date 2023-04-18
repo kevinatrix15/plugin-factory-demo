@@ -62,15 +62,28 @@ static A an_A;
 
 int main()
 {
-  B::GetFoo(); // returns 1
+  printf("%d\n", B::GetFoo());
 }
 ```
 
 ## build.sh
+
+Without any special linker flags:
 
 ```bash
 g++ -fPIC -I. -shared A.cpp -o libA.so
 g++ -fPIC -I. -shared B.cpp -o libB.so
 g++ -fPIC -I. main.cpp -o main -lA -lB
 ./main
+1
+```
+
+With the `--no-as-needed` linker flag:
+
+```bash
+g++ -fPIC -I. -shared A.cpp -o libA.so
+g++ -fPIC -I. -shared B.cpp -o libB.so
+g++ -fPIC -I. main.cpp -o main -Wl,--no-as-needed -lA -lB
+./main
+5
 ```
