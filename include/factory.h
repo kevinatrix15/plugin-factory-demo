@@ -20,6 +20,10 @@ class BaseClass
  */
 typedef std::function<std::shared_ptr<BaseClass>()> TypeBuilder;
 
+/**
+ * A Factory capable of instantiating objects derived from our BaseClass
+ * Any type placed in the Factory's registry can be constructed
+ */
 class Factory
 {
  public:
@@ -29,7 +33,6 @@ class Factory
    * Register a new type with the Factory
    * The registry entry consists of a unique ID and a builder function
    */
-  // template <typename T>
   void registerType(std::string ID, TypeBuilder builder)
   {
     type_registry_[ID] = builder;
